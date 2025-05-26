@@ -8,3 +8,4 @@ I want to create sendor fault prediction model .
 - create package
 - setup. and run
 - requirement file create and run
+- components build
