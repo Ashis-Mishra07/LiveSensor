@@ -2,7 +2,7 @@ from sensor.configuration.mongo_db_connection import MongoDBClient
 from sensor.exception import SensorException
 import os , sys
 from sensor.logger import logging
-from  sensor.utils import dump_csv_file_to_mongo_collection
+from  sensor.utils2 import dump_csv_file_to_mongo_collection
 from sensor.entity.config_entity  import TrainingPipelineConfig,DataIngestionConfig
 
 from sensor.pipeline.training_pipeline import TrainPipeline
