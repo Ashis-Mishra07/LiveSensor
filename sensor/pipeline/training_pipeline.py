@@ -14,6 +14,16 @@ from sensor.components.model_trainer import ModelTrainer
 from sensor.entity.artifacts_entity import ModelTrainerArtifact
 from sensor.entity.config_entity import ModelTrainerConfig
 
+from sensor.components.model_trainer import ModelTrainer
+from sensor.entity.artifacts_entity import ModelTrainerArtifact
+from sensor.entity.config_entity import ModelTrainerConfig
+
+from sensor.entity.config_entity import ModelTrainerConfig , ModelEvaluatorConfig
+from sensor.components.model_evaluation import ModelEvaluation
+from sensor.constant.training_pipeline import SAVED_MODEL_DIR, MODEL_FILE_NAME
+from sensor.entity.artifacts_entity import ModelEvaluationArtifact , ModelTrainerArtifact
+
+
 
 class TrainPipeline:
 
@@ -85,6 +95,23 @@ class TrainPipeline:
             return model_trainer_artifact
         except Exception as e:
             raise SensorException(e, sys)
+    
+
+    def start_model_evaluation(self , data_validation_artifact:DataValidationArtifact, model_trainer_artifact:ModelTrainerArtifact):
+        try:
+            model_eval_config = ModelEvaluatorConfig(self.training_pipeline_config)
+            # model_eval = ModelEvaluation(model_eval_config,data_validation_artifact , model_trainer_artifact)
+            model_eval = ModelEvaluation(
+                model_evaluation_config=model_eval_config,
+                model_trainer_artifact=model_trainer_artifact,
+                data_validation_artifact=data_validation_artifact
+            )
+            model_eval_artifact = model_eval.initiate_model_evaluation()
+
+            return model_eval_artifact
+        except Exception as e:
+            raise SensorException(e, sys)
+
 
 
     def run_pipeline(self):
@@ -93,5 +120,9 @@ class TrainPipeline:
             data_validation_artifact=self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+            model_eval_artifact = self.start_model_evaluation(data_validation_artifact, model_trainer_artifact)
+
+            if not model_eval_artifact.is_model_accepted:
+                raise Exception("Trained model is not better than the existing model. Training pipeline will not continue.")
         except Exception as e :    
             raise  SensorException(e,sys)

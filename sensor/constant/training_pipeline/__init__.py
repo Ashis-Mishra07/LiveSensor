@@ -57,3 +57,13 @@ MODEL_TRAINER_TRAINED_MODEL_DIR: str = "trained_model"
 MODEL_TRAINER_TRAINED_FILE_NAME: str = "model.pkl"
 MODEL_TRAINER_EXPECTED_SCORE: float = 0.6
 MODEL_TRAINER_OVER_FITTING_UNDER_FITTING_THRESHOLD: float = 0.05
+
+
+"""
+Model Evaluator related constant start with MODEL_EVALUATOR VAR NAME
+"""
+MODEL_EVALUATOR_DIR_NAME: str = "model_evaluation"
+MODEL_EVALUATOR_CHANGED_THRESHOLD_SCORE: float = 0.02
+MODEL_EVALUATION_REPORT_NAME = "report.yaml"
+
+SAVED_MODEL_DIR: str = os.path.join("saved_models")
