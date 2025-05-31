@@ -94,3 +94,20 @@ def save_object(file_path: str, obj: object)-> None:
         logging.info(f"Object saved to {file_path}")
     except Exception as e:
         raise SensorException(e, sys) from e
+    
+def load_object(file_path: str) -> object:
+    """
+    Loads an object from a file using dill.
+    
+    :param file_path: Path to the file from which the object will be loaded.
+    :return: Loaded object.
+    :raises SensorException: If the file cannot be read.
+    """
+    try:
+        if not os.path.exists(file_path):
+            raise SensorException(f"The file {file_path} does not exist.", sys)
+        with open(file_path, 'rb') as file:
+            logging.info(f"Loading object from {file_path}")
+            return dill.load(file)
+    except Exception as e:
+        raise SensorException(e, sys) from e
