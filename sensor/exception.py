@@ -2,15 +2,14 @@ import sys
 import os 
 
 
-def error_message_detail(error, error_detail:sys):
-    
-    _,_,exc_tb = error_detail.exc_info()
-    filename = exc_tb.tb_frame.f_code.co_filename
-
-    error_message="error occured and the file name is [{0}] and the linenumber is [{1}]and error is [{2}]".format(
-    filename,exc_tb.tb_lineno,str(error))
-    
-    return error_message
+def error_message_detail(error_message, error_detail: sys):
+    _, _, exc_tb = sys.exc_info()
+    if exc_tb is not None:
+        filename = exc_tb.tb_frame.f_code.co_filename
+        lineno = exc_tb.tb_lineno
+        return f"error occured and the file name is [{filename}] and the linenumber is [{lineno}]and error is [{error_message}]"
+    else:
+        return f"error occured and error is [{error_message}]"
 
 
 

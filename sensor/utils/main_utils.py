@@ -6,6 +6,7 @@ import dill
 import sys
 from sensor.exception import SensorException
 import logging
+import pickle
 
 
 def read_yaml_file(file_path: str) -> dict:
